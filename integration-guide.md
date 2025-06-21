@@ -1,21 +1,39 @@
 # Integration Guide
 
-This guide walks local authority IT teams through integrating their systems with the CPD Progress Tracker API.
+This guide walks developers through integrating with the CPD Progress Tracker API.
 
-## Step 1: Get API Access
+## Step 1: Authentication
 
-Contact Hunting Stewart support to request an API token and integration credentials.
+All endpoints require a bearer token. Contact the Hunting Stewart admin team to request API access and credentials.
 
-## Step 2: Authentication
+Once obtained, include your token in the request header:
 
-Include the provided bearer token in your API requests:
+```
+Authorization: Bearer YOUR_TOKEN_HERE
+```
 
-```http
+## Step 2: Retrieve CPD Progress
+
+To get a worker's CPD data, use the following endpoint:
+
+```
+GET /care-workers/{worker_id}/cpd-progress
+```
+
+Replace `{worker_id}` with the relevant care worker’s ID.
+
+### Example Request
+
+```
 GET /care-workers/12345/cpd-progress HTTP/1.1
 Authorization: Bearer YOUR_TOKEN_HERE
-### Step 3: Handle Responses
+```
 
-All responses are JSON. A typical success response:
+## Step 3: Handle Responses
+
+All responses are returned in JSON format.
+
+### Success Response
 
 ```json
 {
@@ -23,33 +41,15 @@ All responses are JSON. A typical success response:
   "completedHours": 28,
   "dueBy": "2025-12-31"
 }
+```
 
----
+## Step 4: Error Handling
 
-### ✅ **2. Developer Onboarding Guide → `developer-onboarding.md`**
+You may receive the following errors:
 
-This should be its own markdown file and already exists — just finish populating it with the following:
+- **404** – Care worker ID not found  
+- **401** – Invalid or expired token  
+- **500** – Internal server error
 
-```markdown
-# Developer Onboarding
 
-Welcome to the CPD Progress Tracker API documentation.
-
-This guide will help new developers:
-
-- Understand available endpoints
-- Get started with authentication
-- Explore sample queries
-- Use tools like Postman or curl
-
-For full reference, see the `openapi.yaml`.
-
-## Postman Collection
-
-You can import the OpenAPI spec into Postman for easier testing.
-
-## Token Setup
-
-All integrations require a bearer token.  
-Reach out to the admin team at Hunting Stewart to provision your token.
 
