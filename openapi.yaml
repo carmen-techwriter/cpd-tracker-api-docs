@@ -36,6 +36,23 @@ paths:
                   dueBy:
                     type: string
                     format: date
+              examples:
+                success:
+                  summary: Example success response
+                  value:
+                    totalHours: 35
+                    completedHours: 28
+                    dueBy: "2025-12-31"
+        '401':
+          description: Invalid or expired authentication token
         '404':
           description: Care worker not found
+      security:
+        - bearerAuth: []
 
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
