@@ -1,1 +1,41 @@
+openapi: 3.0.0
+info:
+  title: CPD Progress Tracker API
+  version: 1.0.0
+  description: >
+    API for querying CPD completion data for care workers, used by local authorities
+    to validate compliance with training and certification requirements.
+
+servers:
+  - url: https://api.huntingstewart.co.uk/v1
+    description: Production server
+
+paths:
+  /care-workers/{id}/cpd-progress:
+    get:
+      summary: Get CPD progress for a specific care worker
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Unique ID of the care worker
+      responses:
+        '200':
+          description: CPD progress data returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalHours:
+                    type: number
+                  completedHours:
+                    type: number
+                  dueBy:
+                    type: string
+                    format: date
+        '404':
+          description: Care worker not found
 
